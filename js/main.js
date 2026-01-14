@@ -250,6 +250,47 @@ function calculatePrice(pricePerKg, grams) {
     return Math.round((pricePerKg / 1000) * grams);
 }
 
+// Current quantity state (in grams)
+let currentQtyGrams = 1000;
+const PRICE_PER_KG = 200;
+const MIN_GRAMS = 250;
+const MAX_GRAMS = 5000;
+const STEP_GRAMS = 250;
+
+// Increment quantity by 250gm
+function incrementQty() {
+    if (currentQtyGrams < MAX_GRAMS) {
+        currentQtyGrams += STEP_GRAMS;
+        updateQtyDisplay();
+    }
+}
+
+// Decrement quantity by 250gm
+function decrementQty() {
+    if (currentQtyGrams > MIN_GRAMS) {
+        currentQtyGrams -= STEP_GRAMS;
+        updateQtyDisplay();
+    }
+}
+
+// Update the quantity and price display
+function updateQtyDisplay() {
+    const qtyDisplay = document.getElementById('qty-display');
+    const priceDisplay = document.getElementById('price-display');
+    const hiddenInput = document.getElementById('qty-1');
+
+    if (qtyDisplay && priceDisplay && hiddenInput) {
+        qtyDisplay.textContent = getQuantityLabel(currentQtyGrams);
+        priceDisplay.textContent = '₹' + calculatePrice(PRICE_PER_KG, currentQtyGrams);
+        hiddenInput.value = currentQtyGrams;
+    }
+}
+
+// Make functions globally available
+window.incrementQty = incrementQty;
+window.decrementQty = decrementQty;
+window.updateQtyDisplay = updateQtyDisplay;
+
 // Make products globally available
 window.products = products;
 
