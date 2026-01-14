@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Panel - Bismillah Chicken Centre">
+    <title>Admin Panel | Bismillah Chicken Centre</title>
+    <link rel="icon" type="image/png"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍗</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body class="light-theme">
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">🍗</span><span>Bismillah Chicken</span></a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="admin.html" class="nav-link active">Admin</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme"><span
+                        class="theme-icon">🌙</span></button>
+                <div class="user-menu" style="display:flex;">
+                    <div class="user-avatar">A</div>
+                    <span class="user-name">Admin</span>
+                    <button onclick="logout()" style="background:none;border:none;cursor:pointer;">🚪</button>
+                </div>
+            </div>
+            <div class="nav-toggle"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <header class="page-header" style="background:var(--gradient-primary);">
+        <div class="container">
+            <h1 style="color:white;">Admin <span style="color:var(--accent);">Panel</span></h1>
+            <p style="color:rgba(255,255,255,0.9);">Manage orders and view statistics</p>
+        </div>
+    </header>
+
+    <!-- Admin Stats -->
+    <section class="section" style="padding-top:var(--space-lg);">
+        <div class="container">
+            <div class="admin-stats">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="total-orders">0</span>
+                        <span class="stat-label">Total Orders</span>
+                    </div>
+                </div>
+                <div class="glass-card stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="pending-orders">0</span>
+                        <span class="stat-label">Pending</span>
+                    </div>
+                </div>
+                <div class="glass-card stat-card">
+                    <div class="stat-icon">🚚</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="on-way-orders">0</span>
+                        <span class="stat-label">On the Way</span>
+                    </div>
+                </div>
+                <div class="glass-card stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="delivered-orders">0</span>
+                        <span class="stat-label">Delivered</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Orders List -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header" style="margin-bottom:var(--space-md);">
+                <h2>All <span class="text-gradient">Orders</span></h2>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="order-filters glass-card" style="margin-bottom:var(--space-lg);padding:var(--space-md);">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-status="all">All</button>
+                    <button class="filter-tab" data-status="pending">⏳ Pending</button>
+                    <button class="filter-tab" data-status="confirmed">✓ Confirmed</button>
+                    <button class="filter-tab" data-status="on_the_way">🚚 On the Way</button>
+                    <button class="filter-tab" data-status="delivered">✅ Delivered</button>
+                    <button class="filter-tab" data-status="cancelled">❌ Cancelled</button>
+                </div>
+            </div>
+
+            <div id="admin-orders-container">
+                <div class="loading-state" style="text-align:center;padding:var(--space-xl);">
+                    <div class="spinner"></div>
+                    <p>Loading orders...</p>
+                </div>
+            </div>
+
+            <!-- Access Denied -->
+            <div id="access-denied" class="glass-card" style="display:none;text-align:center;padding:var(--space-2xl);">
+                <div style="font-size:4rem;margin-bottom:var(--space-md);">🚫</div>
+                <h3>Access Denied</h3>
+                <p style="margin-bottom:var(--space-lg);">Only admin can access this page</p>
+                <a href="login.html" class="btn btn-primary">Login as Admin</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2024 Bismillah Chicken Centre. Admin Panel</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast-container"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

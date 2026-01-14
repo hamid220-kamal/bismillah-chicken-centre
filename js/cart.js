@@ -201,6 +201,31 @@ function handleOrderSubmit(event) {
     const deliveryFee = subtotal > 300 ? 0 : 30;
     const total = subtotal + deliveryFee;
 
+    const orderData = {
+        items: cart.map(item => ({
+            name: item.name || 'Fresh Chicken',
+            grams: item.grams,
+            price: item.price,
+            count: item.count || 1
+        })),
+        subtotal,
+        deliveryFee,
+        total,
+        customerName: formData.get('name'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        landmark: formData.get('landmark') || '',
+        deliveryTime: formData.get('delivery-time'),
+        notes: formData.get('notes') || ''
+    };
+
+    // Save to MongoDB if logged in
+    const token = localStorage.getItem('bismillah_token');
+    if (token) {
+        saveOrderToDatabase(orderData, token);
+    }
+
+    // Build WhatsApp message
     let message = '🍗 *BISMILLAH CHICKEN CENTRE - ORDER*\n';
     message += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
 
@@ -230,6 +255,21 @@ function handleOrderSubmit(event) {
     window.open(`https://wa.me/918688235701?text=${encodeURIComponent(message)}`, '_blank');
     showToast('Order sent! 🎉', 'success');
     form.reset();
+}
+
+async function saveOrderToDatabase(orderData, token) {
+    try {
+        await fetch('http://localhost:5000/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(orderData)
+        });
+    } catch (err) {
+        console.log('Order saved to WhatsApp only');
+    }
 }
 
 // Global exports
