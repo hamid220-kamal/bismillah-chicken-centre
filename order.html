@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Order fresh chicken online from Zaid Chicken Centre. Home delivery available with cash on delivery option.">
-    <title>Order Now | Zaid Chicken Centre</title>
-
+    <meta name="description" content="Order fresh chicken from Bismillah Chicken Centre, Kothur. Call 8688235701.">
+    <title>Order Now | Bismillah Chicken Centre</title>
     <link rel="icon" type="image/png"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍗</text></svg>">
     <link rel="stylesheet" href="css/style.css">
@@ -15,297 +13,166 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="nav-logo">
-                <span class="logo-icon">🍗</span>
-                <span>Zaid Chicken</span>
-            </a>
-
+            <a href="index.html" class="nav-logo"><span class="logo-icon">🍗</span><span>Bismillah Chicken</span></a>
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="menu.html" class="nav-link">Menu</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
                 <li><a href="order.html" class="nav-link active">Order Now</a></li>
             </ul>
-
             <div class="nav-actions">
-                <button class="cart-btn" aria-label="Shopping Cart">
-                    🛒
-                    <span class="cart-badge" style="display: none;">0</span>
-                </button>
-                <a href="menu.html" class="btn btn-primary">Add Items</a>
+                <button class="cart-btn">🛒<span class="cart-badge" style="display:none;">0</span></button>
+                <a href="index.html" class="btn btn-primary">Add Chicken</a>
             </div>
-
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <div class="nav-toggle"><span></span><span></span><span></span></div>
         </div>
     </nav>
 
-    <!-- Page Header -->
     <header class="page-header">
         <div class="container">
-            <nav class="breadcrumb">
-                <a href="index.html">Home</a>
-                <span>/</span>
-                <span class="current">Order Now</span>
-            </nav>
+            <nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">Order</span></nav>
             <h1>Complete Your <span class="text-gradient">Order</span></h1>
-            <p>Fill in your delivery details and we'll get your fresh chicken to you in 45 minutes!</p>
+            <p>Fill delivery details and we'll deliver fresh chicken to your doorstep!</p>
         </div>
     </header>
 
-    <!-- Order Section -->
     <section class="section">
         <div class="container">
             <div class="order-grid">
-                <!-- Delivery Form -->
                 <div class="glass-card delivery-form animate-on-scroll">
                     <h3>🚚 Delivery Details</h3>
-                    <p style="margin-bottom: var(--space-lg); color: var(--text-secondary);">Please provide your
-                        delivery information.</p>
+                    <p style="margin-bottom:var(--space-lg);color:var(--text-secondary);">Please provide your delivery
+                        information.</p>
 
                     <form id="order-form" onsubmit="handleOrderSubmit(event)">
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label" for="name">Full Name *</label>
-                                <input type="text" id="name" name="name" class="form-input"
-                                    placeholder="Enter your name" required>
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" name="name" class="form-input" placeholder="Your name" required>
                             </div>
-
                             <div class="form-group">
-                                <label class="form-label" for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" name="phone" class="form-input"
-                                    placeholder="Enter your phone" required>
+                                <label class="form-label">Phone Number *</label>
+                                <input type="tel" name="phone" class="form-input" placeholder="Your phone" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="address">Delivery Address *</label>
-                            <textarea id="address" name="address" class="form-textarea"
-                                placeholder="Enter your complete address with house/flat number, street, area"
-                                style="min-height: 100px;" required></textarea>
+                            <label class="form-label">Delivery Address *</label>
+                            <textarea name="address" class="form-textarea"
+                                placeholder="Complete address with house number, street, area" style="min-height:100px;"
+                                required></textarea>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label" for="landmark">Landmark</label>
-                                <input type="text" id="landmark" name="landmark" class="form-input"
-                                    placeholder="Nearby landmark">
+                                <label class="form-label">Landmark</label>
+                                <input type="text" name="landmark" class="form-input" placeholder="Nearby landmark">
                             </div>
-
                             <div class="form-group">
-                                <label class="form-label" for="delivery-time">Preferred Delivery Time *</label>
-                                <select id="delivery-time" name="delivery-time" class="form-input" required>
-                                    <option value="">Select time slot</option>
-                                    <option value="ASAP">ASAP (Within 45 mins)</option>
-                                    <option value="Morning (9AM-12PM)">Morning (9AM-12PM)</option>
-                                    <option value="Afternoon (12PM-4PM)">Afternoon (12PM-4PM)</option>
-                                    <option value="Evening (4PM-7PM)">Evening (4PM-7PM)</option>
-                                    <option value="Night (7PM-10PM)">Night (7PM-10PM)</option>
+                                <label class="form-label">Delivery Time *</label>
+                                <select name="delivery-time" class="form-input" required>
+                                    <option value="">Select time</option>
+                                    <option value="ASAP">ASAP</option>
+                                    <option value="Morning (7AM-12PM)">Morning</option>
+                                    <option value="Afternoon (12PM-4PM)">Afternoon</option>
+                                    <option value="Evening (4PM-9PM)">Evening</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="notes">Special Instructions</label>
-                            <textarea id="notes" name="notes" class="form-textarea"
-                                placeholder="Any special requests? (e.g., cut size preference, extra spicy marination)"
-                                style="min-height: 80px;"></textarea>
+                            <label class="form-label">Special Instructions</label>
+                            <textarea name="notes" class="form-textarea" placeholder="Cutting preference, etc."
+                                style="min-height:80px;"></textarea>
                         </div>
 
-                        <!-- Payment Info -->
                         <div class="glass-card"
-                            style="padding: var(--space-md); margin-bottom: var(--space-lg); background: var(--bg-darker);">
-                            <div style="display: flex; align-items: center; gap: var(--space-sm);">
-                                <span style="font-size: 2rem;">💵</span>
+                            style="padding:var(--space-md);margin-bottom:var(--space-lg);background:var(--bg-darker);">
+                            <div style="display:flex;align-items:center;gap:var(--space-sm);">
+                                <span style="font-size:2rem;">💵</span>
                                 <div>
-                                    <h4 style="margin: 0;">Cash on Delivery</h4>
-                                    <p style="margin: 0; font-size: 0.9rem;">Pay when your order arrives</p>
+                                    <h4 style="margin:0;">Cash on Delivery</h4>
+                                    <p style="margin:0;font-size:0.9rem;">Pay when your order arrives</p>
                                 </div>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
-                            Place Order via WhatsApp 📱
-                        </button>
-
-                        <p
-                            style="text-align: center; margin-top: var(--space-md); color: var(--text-muted); font-size: 0.9rem;">
-                            By placing this order, you agree to receive order updates via WhatsApp.
-                        </p>
+                        <button type="submit" class="btn btn-primary" style="width:100%;padding:1rem;">Place Order via
+                            WhatsApp 📱</button>
                     </form>
                 </div>
 
-                <!-- Order Summary -->
                 <div>
                     <div class="glass-card order-summary animate-on-scroll">
                         <h3>🛒 Order Summary</h3>
-
-                        <div class="order-items" id="order-items">
-                            <!-- Items will be rendered by JavaScript -->
-                        </div>
-
+                        <div class="order-items" id="order-items"></div>
                         <div class="order-totals">
-                            <div class="order-row">
-                                <span>Subtotal</span>
-                                <span id="subtotal">₹0</span>
-                            </div>
-                            <div class="order-row">
-                                <span>Delivery Fee</span>
-                                <span id="delivery-fee">₹50</span>
-                            </div>
-                            <div class="order-row total">
-                                <span>Total</span>
-                                <span id="order-total">₹0</span>
-                            </div>
+                            <div class="order-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+                            <div class="order-row"><span>Delivery</span><span id="delivery-fee">₹30</span></div>
+                            <div class="order-row total"><span>Total</span><span id="order-total">₹0</span></div>
                         </div>
-
                         <div
-                            style="margin-top: var(--space-md); padding: var(--space-sm); background: rgba(37, 211, 102, 0.1); border-radius: var(--radius-md); text-align: center;">
-                            <p style="margin: 0; font-size: 0.9rem; color: #25D366;">
-                                🎉 Free delivery on orders above ₹500!
+                            style="margin-top:var(--space-md);padding:var(--space-sm);background:rgba(37,211,102,0.1);border-radius:var(--radius-md);text-align:center;">
+                            <p style="margin:0;font-size:0.9rem;color:#25D366;">🎉 Free delivery on orders above ₹300!
                             </p>
                         </div>
                     </div>
 
-                    <!-- Add More Items CTA -->
                     <div class="glass-card animate-on-scroll"
-                        style="margin-top: var(--space-md); text-align: center; padding: var(--space-lg);">
-                        <p style="margin-bottom: var(--space-sm);">Need to add more items?</p>
-                        <a href="menu.html" class="btn btn-secondary">Browse Menu →</a>
-                    </div>
-
-                    <!-- Delivery Info -->
-                    <div class="glass-card animate-on-scroll"
-                        style="margin-top: var(--space-md); padding: var(--space-md);">
-                        <h4 style="margin-bottom: var(--space-sm);">📦 Delivery Information</h4>
-                        <ul style="font-size: 0.9rem; color: var(--text-secondary);">
-                            <li style="margin-bottom: var(--space-xs);">✓ Delivery within 45 minutes</li>
-                            <li style="margin-bottom: var(--space-xs);">✓ Fresh & hygienic packaging</li>
-                            <li style="margin-bottom: var(--space-xs);">✓ Temperature-controlled delivery</li>
-                            <li style="margin-bottom: var(--space-xs);">✓ Cash on Delivery available</li>
-                            <li>✓ Free delivery on orders above ₹500</li>
-                        </ul>
+                        style="margin-top:var(--space-md);text-align:center;padding:var(--space-lg);">
+                        <p style="margin-bottom:var(--space-sm);">Need to add chicken?</p>
+                        <a href="index.html" class="btn btn-secondary">Add Fresh Chicken →</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Support Section -->
-    <section class="section" style="padding: var(--space-xl) 0;">
-        <div class="container">
-            <div class="glass-card animate-on-scroll"
-                style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: var(--space-xl); gap: var(--space-lg);">
-                <div>
-                    <h3 style="margin-bottom: var(--space-xs);">Need Help with Your Order?</h3>
-                    <p style="margin: 0;">Our support team is available from 9 AM to 10 PM.</p>
-                </div>
-                <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
-                    <a href="tel:+919876543210" class="btn btn-secondary">📞 Call Us</a>
-                    <a href="https://wa.me/919876543210" target="_blank" class="btn btn-primary"
-                        style="background: #25D366; border-color: #25D366;">💬 WhatsApp Support</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="index.html" class="nav-logo">
-                        <span class="logo-icon">🍗</span>
-                        <span>Zaid Chicken</span>
-                    </a>
-                    <p>Premium quality fresh chicken with home delivery. Serving the community with love since 2015.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link" aria-label="Facebook">📘</a>
-                        <a href="#" class="social-link" aria-label="Instagram">📸</a>
-                        <a href="#" class="social-link" aria-label="WhatsApp">💬</a>
-                    </div>
+                    <a href="index.html" class="nav-logo"><span class="logo-icon">🍗</span><span>Bismillah
+                            Chicken</span></a>
+                    <p>Fresh halal chicken with home delivery in Kothur.</p>
                 </div>
-
                 <div class="footer-column">
-                    <h4>Quick Links</h4>
+                    <h4>Contact</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="menu.html">Menu</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="order.html">Order Now</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Products</h4>
-                    <ul class="footer-links">
-                        <li><a href="menu.html">Fresh Chicken</a></li>
-                        <li><a href="menu.html">Marinated</a></li>
-                        <li><a href="menu.html">Ready to Cook</a></li>
-                        <li><a href="menu.html">Combo Packs</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4>Contact Info</h4>
-                    <ul class="footer-links">
-                        <li>📍 123 Main Street, City</li>
-                        <li>📞 +91 98765 43210</li>
-                        <li>✉️ info@zaidchicken.com</li>
-                        <li>🕐 9:00 AM - 10:00 PM</li>
+                        <li>📍 Near Water Tank, Penjerla Road, Kothur</li>
+                        <li>📞 8688235701</li>
+                        <li>👤 Abdul Lateef</li>
                     </ul>
                 </div>
             </div>
-
             <div class="footer-bottom">
-                <p>© 2024 Zaid Chicken Centre. All rights reserved. Made with ❤️</p>
+                <p>© 2024 Bismillah Chicken Centre. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Cart Sidebar -->
     <div class="cart-overlay"></div>
     <div class="cart-sidebar">
         <div class="cart-header">
-            <h3>🛒 Your Cart</h3>
-            <button class="cart-close">✕</button>
+            <h3>🛒 Cart</h3><button class="cart-close">✕</button>
         </div>
         <div class="cart-items"></div>
         <div class="cart-footer">
-            <div class="cart-total">
-                <span class="cart-total-label">Total:</span>
-                <span class="cart-total-value">₹0</span>
-            </div>
+            <div class="cart-total"><span>Total:</span><span class="cart-total-value">₹0</span></div>
             <div class="cart-actions">
                 <a href="order.html" class="btn btn-primary">Checkout</a>
-                <button class="btn btn-secondary" onclick="sendWhatsAppOrder()">Order via WhatsApp</button>
+                <button class="btn btn-secondary" onclick="sendWhatsAppOrder()">WhatsApp Order</button>
             </div>
         </div>
     </div>
 
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">💬</a>
-
-    <!-- Toast Container -->
+    <a href="https://wa.me/918688235701" class="whatsapp-float">💬</a>
     <div class="toast-container"></div>
-
-    <!-- JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
-    <script>
-        // Render order summary on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            renderOrderSummary();
-        });
-    </script>
+    <script>document.addEventListener('DOMContentLoaded', () => { renderOrderSummary(); });</script>
 </body>
 
 </html>

@@ -1,11 +1,8 @@
 /* =====================================================
-   ZAID CHICKEN CENTRE - Shopping Cart System
+   BISMILLAH CHICKEN CENTRE - Shopping Cart System
    ===================================================== */
 
-// =====================================================
-// CART STATE MANAGEMENT
-// =====================================================
-const CART_KEY = 'zaid_chicken_cart';
+const CART_KEY = 'bismillah_chicken_cart';
 
 function getCart() {
     try {
@@ -25,66 +22,31 @@ function clearCart() {
     updateCartUI();
 }
 
-// =====================================================
-// CART OPERATIONS
-// =====================================================
-function addToCart(productId, quantity = 1) {
-    const product = window.products?.find(p => p.id === productId);
-    if (!product) return;
-
-    const cart = getCart();
-    const existingItem = cart.find(item => item.id === productId);
-
-    if (existingItem) {
-        existingItem.quantity += quantity;
-    } else {
-        cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            unit: product.unit,
-            image: product.image,
-            quantity: quantity
-        });
-    }
-
-    saveCart(cart);
-    showToast(`${product.name} added to cart! 🛒`, 'success');
-
-    // Animate cart button
-    const cartBtn = document.querySelector('.cart-btn');
-    if (cartBtn) {
-        cartBtn.style.transform = 'scale(1.2)';
-        setTimeout(() => cartBtn.style.transform = '', 300);
-    }
-}
-
-function removeFromCart(productId) {
-    const cart = getCart().filter(item => item.id !== productId);
-    saveCart(cart);
-    showToast('Item removed from cart', 'info');
-}
-
-function updateQuantity(productId, newQuantity) {
-    if (newQuantity < 1) {
-        removeFromCart(productId);
-        return;
-    }
-
-    const cart = getCart();
-    const item = cart.find(item => item.id === productId);
-    if (item) {
-        item.quantity = newQuantity;
-        saveCart(cart);
-    }
-}
-
 function getCartTotal() {
-    return getCart().reduce((total, item) => total + (item.price * item.quantity), 0);
+    return getCart().reduce((total, item) => total + (item.price * (item.count || 1)), 0);
 }
 
 function getCartCount() {
-    return getCart().reduce((count, item) => count + item.quantity, 0);
+    return getCart().reduce((count, item) => count + (item.count || 1), 0);
+}
+
+function removeFromCart(index) {
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    showToast('Item removed', 'info');
+}
+
+function updateItemCount(index, newCount) {
+    if (newCount < 1) {
+        removeFromCart(index);
+        return;
+    }
+    const cart = getCart();
+    if (cart[index]) {
+        cart[index].count = newCount;
+        saveCart(cart);
+    }
 }
 
 // =====================================================
@@ -99,7 +61,6 @@ function updateCartUI() {
 function updateCartBadge() {
     const badge = document.querySelector('.cart-badge');
     const count = getCartCount();
-
     if (badge) {
         badge.textContent = count;
         badge.style.display = count > 0 ? 'flex' : 'none';
@@ -117,35 +78,34 @@ function renderCartItems() {
             <div class="cart-empty">
                 <div class="cart-empty-icon">🛒</div>
                 <p>Your cart is empty</p>
-                <a href="menu.html" class="btn btn-primary" style="margin-top: 1rem;">Browse Menu</a>
+                <a href="index.html" class="btn btn-primary" style="margin-top:1rem;">Order Chicken</a>
             </div>
         `;
         return;
     }
 
-    container.innerHTML = cart.map(item => `
-        <div class="cart-item" data-id="${item.id}">
+    container.innerHTML = cart.map((item, index) => {
+        const qtyLabel = item.grams >= 1000 ? (item.grams / 1000) + ' kg' : item.grams + ' gm';
+        return `
+        <div class="cart-item">
             <div class="cart-item-image">
                 <img src="${item.image}" alt="${item.name}">
             </div>
             <div class="cart-item-details">
                 <h4 class="cart-item-title">${item.name}</h4>
-                <p class="cart-item-price">₹${item.price} / ${item.unit}</p>
+                <p class="cart-item-price">${qtyLabel} - ₹${item.price}</p>
                 <div class="cart-item-quantity">
-                    <button class="qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">−</button>
-                    <span class="qty-value">${item.quantity}</span>
-                    <button class="qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                    <button class="qty-btn" onclick="updateItemCount(${index}, ${(item.count || 1) - 1})">−</button>
+                    <span class="qty-value">${item.count || 1}</span>
+                    <button class="qty-btn" onclick="updateItemCount(${index}, ${(item.count || 1) + 1})">+</button>
                 </div>
             </div>
-            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})">✕</button>
         </div>
-    `).join('');
+    `}).join('');
 
-    // Update total
     const totalEl = document.querySelector('.cart-total-value');
-    if (totalEl) {
-        totalEl.textContent = `₹${getCartTotal()}`;
-    }
+    if (totalEl) totalEl.textContent = `₹${getCartTotal()}`;
 }
 
 function renderOrderSummary() {
@@ -155,23 +115,24 @@ function renderOrderSummary() {
     const cart = getCart();
 
     if (cart.length === 0) {
-        container.innerHTML = '<p class="cart-empty" style="padding:1rem;">No items in cart</p>';
+        container.innerHTML = '<p style="padding:1rem;text-align:center;color:var(--text-muted);">No items in cart</p>';
         return;
     }
 
-    container.innerHTML = cart.map(item => `
+    container.innerHTML = cart.map(item => {
+        const qtyLabel = item.grams >= 1000 ? (item.grams / 1000) + ' kg' : item.grams + ' gm';
+        return `
         <div class="order-item">
             <div class="order-item-info">
-                <span class="order-item-qty">${item.quantity}</span>
-                <span class="order-item-name">${item.name}</span>
+                <span class="order-item-qty">${item.count || 1}x</span>
+                <span class="order-item-name">${qtyLabel}</span>
             </div>
-            <span class="order-item-price">₹${item.price * item.quantity}</span>
+            <span class="order-item-price">₹${item.price * (item.count || 1)}</span>
         </div>
-    `).join('');
+    `}).join('');
 
-    // Update totals
     const subtotal = getCartTotal();
-    const deliveryFee = subtotal > 500 ? 0 : 50;
+    const deliveryFee = subtotal > 300 ? 0 : 30;
     const total = subtotal + deliveryFee;
 
     const subtotalEl = document.getElementById('subtotal');
@@ -179,7 +140,7 @@ function renderOrderSummary() {
     const totalEl = document.getElementById('order-total');
 
     if (subtotalEl) subtotalEl.textContent = `₹${subtotal}`;
-    if (deliveryEl) deliveryEl.textContent = subtotal > 500 ? 'FREE' : '₹50';
+    if (deliveryEl) deliveryEl.textContent = subtotal > 300 ? 'FREE' : '₹30';
     if (totalEl) totalEl.textContent = `₹${total}`;
 }
 
@@ -189,7 +150,6 @@ function renderOrderSummary() {
 function openCart() {
     const overlay = document.querySelector('.cart-overlay');
     const sidebar = document.querySelector('.cart-sidebar');
-
     if (overlay && sidebar) {
         overlay.classList.add('active');
         sidebar.classList.add('active');
@@ -201,7 +161,6 @@ function openCart() {
 function closeCart() {
     const overlay = document.querySelector('.cart-overlay');
     const sidebar = document.querySelector('.cart-sidebar');
-
     if (overlay && sidebar) {
         overlay.classList.remove('active');
         sidebar.classList.remove('active');
@@ -209,32 +168,13 @@ function closeCart() {
     }
 }
 
-// Initialize cart on page load
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     updateCartUI();
-
-    // Cart button click
-    const cartBtn = document.querySelector('.cart-btn');
-    if (cartBtn) {
-        cartBtn.addEventListener('click', openCart);
-    }
-
-    // Close cart on overlay click
-    const overlay = document.querySelector('.cart-overlay');
-    if (overlay) {
-        overlay.addEventListener('click', closeCart);
-    }
-
-    // Close cart button
-    const closeBtn = document.querySelector('.cart-close');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeCart);
-    }
-
-    // Escape key to close cart
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeCart();
-    });
+    document.querySelector('.cart-btn')?.addEventListener('click', openCart);
+    document.querySelector('.cart-overlay')?.addEventListener('click', closeCart);
+    document.querySelector('.cart-close')?.addEventListener('click', closeCart);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCart(); });
 });
 
 // =====================================================
@@ -247,74 +187,57 @@ function handleOrderSubmit(event) {
     const cart = getCart();
 
     if (cart.length === 0) {
-        showToast('Please add items to your cart first!', 'error');
+        showToast('Please add chicken to cart first!', 'error');
         return;
     }
 
     if (!validateForm(form)) {
-        showToast('Please fill in all required fields correctly', 'error');
+        showToast('Please fill all required fields', 'error');
         return;
     }
 
     const formData = new FormData(form);
-    const customerData = {
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        address: formData.get('address'),
-        landmark: formData.get('landmark'),
-        deliveryTime: formData.get('delivery-time'),
-        notes: formData.get('notes')
-    };
-
-    // Create WhatsApp message with full order details
     const subtotal = getCartTotal();
-    const deliveryFee = subtotal > 500 ? 0 : 50;
+    const deliveryFee = subtotal > 300 ? 0 : 30;
     const total = subtotal + deliveryFee;
 
-    let message = '🍗 *ZAID CHICKEN CENTRE - NEW ORDER*\n';
+    let message = '🍗 *BISMILLAH CHICKEN CENTRE - ORDER*\n';
     message += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
 
-    message += '👤 *Customer Details:*\n';
-    message += `Name: ${customerData.name}\n`;
-    message += `Phone: ${customerData.phone}\n`;
-    message += `Address: ${customerData.address}\n`;
-    if (customerData.landmark) message += `Landmark: ${customerData.landmark}\n`;
-    message += `Delivery Time: ${customerData.deliveryTime}\n`;
-    if (customerData.notes) message += `Special Notes: ${customerData.notes}\n`;
+    message += '👤 *Customer:*\n';
+    message += `Name: ${formData.get('name')}\n`;
+    message += `Phone: ${formData.get('phone')}\n`;
+    message += `Address: ${formData.get('address')}\n`;
+    if (formData.get('landmark')) message += `Landmark: ${formData.get('landmark')}\n`;
+    message += `Time: ${formData.get('delivery-time')}\n`;
+    if (formData.get('notes')) message += `Notes: ${formData.get('notes')}\n`;
 
-    message += '\n📦 *Order Items:*\n';
-    message += '────────────────────\n';
-
+    message += '\n📦 *Order:*\n';
     cart.forEach(item => {
-        message += `• ${item.name} (${item.quantity} ${item.unit}) - ₹${item.price * item.quantity}\n`;
+        const qtyLabel = item.grams >= 1000 ? (item.grams / 1000) + ' kg' : item.grams + ' gm';
+        message += `• ${qtyLabel}`;
+        if (item.count > 1) message += ` x${item.count}`;
+        message += ` - ₹${item.price * (item.count || 1)}\n`;
     });
 
-    message += '────────────────────\n';
-    message += `Subtotal: ₹${subtotal}\n`;
-    message += `Delivery: ${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}\n`;
+    message += `\nSubtotal: ₹${subtotal}\n`;
+    message += `Delivery: ${deliveryFee === 0 ? 'FREE' : '₹30'}\n`;
     message += `*TOTAL: ₹${total}*\n\n`;
-    message += '💳 Payment: Cash on Delivery\n\n';
-    message += 'Please confirm this order. Thank you! 🙏';
+    message += '💵 Payment: Cash on Delivery\n';
+    message += 'Please confirm! 🙏';
 
-    const phoneNumber = '919876543210'; // Replace with actual number
-    const encodedMessage = encodeURIComponent(message);
-
-    // Clear cart after order
     clearCart();
-
-    // Open WhatsApp
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
-
-    showToast('Order sent successfully! 🎉', 'success');
+    window.open(`https://wa.me/918688235701?text=${encodeURIComponent(message)}`, '_blank');
+    showToast('Order sent! 🎉', 'success');
     form.reset();
 }
 
-// Make functions globally available
-window.addToCart = addToCart;
+// Global exports
+window.getCart = getCart;
+window.saveCart = saveCart;
+window.clearCart = clearCart;
 window.removeFromCart = removeFromCart;
-window.updateQuantity = updateQuantity;
+window.updateItemCount = updateItemCount;
 window.openCart = openCart;
 window.closeCart = closeCart;
-window.getCart = getCart;
-window.clearCart = clearCart;
 window.handleOrderSubmit = handleOrderSubmit;
