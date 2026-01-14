@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create account at Bismillah Chicken Centre">
+    <title>Sign Up | Bismillah Chicken Centre</title>
+    <link rel="icon" type="image/png"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍗</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body class="light-theme">
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">🍗</span><span>Bismillah Chicken</span></a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="order.html" class="nav-link">Order Now</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme"><span
+                        class="theme-icon">🌙</span></button>
+                <button class="cart-btn">🛒<span class="cart-badge" style="display:none;">0</span></button>
+            </div>
+            <div class="nav-toggle"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-card glass-card animate-on-scroll">
+                <div class="auth-header">
+                    <h1>Create Account 🎉</h1>
+                    <p>Join Bismillah Chicken Centre for easy ordering</p>
+                </div>
+
+                <form id="signup-form" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" name="name" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Phone Number *</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="Enter your phone number"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email (Optional)</label>
+                        <input type="email" name="email" class="form-input" placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password *</label>
+                        <input type="password" name="password" class="form-input"
+                            placeholder="Create a password (min 6 characters)" required minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Delivery Address</label>
+                        <textarea name="address" class="form-textarea" placeholder="Enter your delivery address"
+                            style="min-height:80px;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;padding:1rem;font-size:1.1rem;">
+                        Create Account ✨
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="login.html">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" style="margin-top:auto;">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2024 Bismillah Chicken Centre. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="cart-overlay"></div>
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 Cart</h3><button class="cart-close">✕</button>
+        </div>
+        <div class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total"><span>Total:</span><span class="cart-total-value">₹0</span></div>
+            <div class="cart-actions">
+                <a href="order.html" class="btn btn-primary">Checkout</a>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/918688235701" class="whatsapp-float">💬</a>
+    <div class="toast-container"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        async function handleSignup(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = {
+                name: form.name.value,
+                phone: form.phone.value,
+                email: form.email.value,
+                password: form.password.value,
+                address: form.address.value
+            };
+
+            const btn = form.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Creating account...';
+
+            const result = await signup(formData);
+
+            if (result.success) {
+                window.location.href = 'index.html';
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Create Account ✨';
+            }
+        }
+    </script>
+</body>
+
+</html>
